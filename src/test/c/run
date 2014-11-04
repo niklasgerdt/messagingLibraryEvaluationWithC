@@ -1,0 +1,3 @@
+gcc eventTest.c ../event.c -lzmq -std=c99
+./a.out
+rm a.out
