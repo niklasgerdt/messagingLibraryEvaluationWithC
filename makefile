@@ -45,3 +45,6 @@ tests:
 	$(CLEANUP)
 	gcc -D_GNU_SOURCE $(TEST)eventTest.c -o bin/test.o -std=c99
 	bin/test.o
+
+zmqeventservice:
+	gcc -D_GNU_SOURCE $(MAIN)zmq/zeromq.c -o $(OUTDIR)zeromqeventservice -lzmq -std=c99
