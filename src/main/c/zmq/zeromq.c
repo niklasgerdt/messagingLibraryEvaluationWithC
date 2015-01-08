@@ -47,18 +47,15 @@ void destroyNetwork() {
 }
 
 void mediate() {
-	zmq_msg_t msg_in;
-	assert(zmq_msg_init(&msg_in) == 0);
-	if (zmq_msg_recv(&msg_in, subscriber, 0) == -1) {
-		return;
-	}
-
-	zmq_msg_t msg_out;
-	assert(zmq_msg_init_size(&msg_out, zmq_msg_size(&msg_in)) == 0);
-	memcpy(zmq_msg_data(&msg_out), zmq_msg_data(&msg_in), zmq_msg_size(&msg_in));
-
-	assert(zmq_msg_send(&msg_out, publisher, 0) == zmq_msg_size(&msg_in));
-	zmq_msg_close(&msg_in);
+	zmq_msg_t msgIn;
+	zmq_msg_t msgOut;
+	assert(zmq_msg_init(&msgIn) == 0);
+	assert(zmq_msg_init(&msgOut) == 0);
+	assert(zmq_msg_recv(&msgIn, subscriber, 0) != -1);
+ 	assert(zmq_msg_copy(&msgOut, &msgIn) == 0);
+	assert(zmq_msg_send(&msgOut, publisher, 0) 
+		== zmq_msg_size(&msgIn));
+	zmq_msg_close(&msgIn);
 }
 
 void term(int signum) {
