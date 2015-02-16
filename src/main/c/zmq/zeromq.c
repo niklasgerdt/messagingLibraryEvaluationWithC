@@ -11,6 +11,7 @@ static void *subscriber;
 
 static struct sigaction action;
 int killSignal;
+int routed;
 
 void initNetwork(){
 	context = zmq_ctx_new();
@@ -60,6 +61,7 @@ void mediate() {
 
 void term(int signum) {
     printf("Received SIGTERM, exiting...\n");
+    printf("routed %d events\n", routed);
     killSignal = 1;
 }
 
@@ -89,7 +91,9 @@ int main(int argc, char *argv[]) {
 
 	while (killSignal == 0) {
 		mediate();
+		routed++;
 	}
+	
 
 	destroyNetwork();
 	return 0;

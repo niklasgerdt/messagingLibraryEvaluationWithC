@@ -5,6 +5,8 @@
 #include "mod/event.h"
 #include "pubsub.h"
 
+int routed;
+
 int main(int argc, char *argv[]) {
 	char *pubAddr = argv[1];
 	char *subAddr[4];
@@ -24,11 +26,13 @@ int main(int argc, char *argv[]) {
 
 	while (R20_killSignal == 0) {
 		med();
+		routed++;
 	}
+
+	printf("routed %d events\n", routed);
 
 	destroyPub();
 	destroySub();
 	return 0;
-
 }
 
